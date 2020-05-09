@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promist</title>
+</head>
+
+<body>
+    <div class="">promise</div>
+    <script src="./promise.js"></script>
+    <script>
+        let p = new Jk((resolve, reject) => {
+            setTimeout(v => {
+                resolve('jack resolve   ')
+                console.log('jkds')
+            }, 1000)
+        }).then(value => {
+            console.log(value)
+        }, reason => {
+            console.log(reason)
+        })
+        console.log('异步测试')
+        console.log(p)
+    </script>
+</body>
+
+</html>
