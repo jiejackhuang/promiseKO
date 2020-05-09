@@ -27,18 +27,15 @@
     <!-- 第二部分 -->
     <script>
         let p = new Jk((resolve, reject) => {
-                resolve('jack resolve   ')
-                
+            resolve('jack resolve   ')
         }).then(value => {
-            console.log(sfd)
             return 'jkds'
         }, reason => {
-            console.log(reason)
             return 'p2'
         }).then(value => {
             console.log('suceess', value)
         }, reason => {
-            console.log('erro',reason)
+            console.log('erro', reason)
         })
 
         console.log('jack')
