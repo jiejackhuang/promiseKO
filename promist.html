@@ -10,7 +10,7 @@
 <body>
     <div class="">promise</div>
     <script src="./promise.js"></script>
-    <script>
+    <!-- <script>
         let p = new Jk((resolve, reject) => {
             setTimeout(v => {
                 resolve('jack resolve   ')
@@ -23,7 +23,39 @@
         })
         console.log('异步测试')
         console.log(p)
+    </script> -->
+    <!-- 第二部分 -->
+    <script>
+        let p = new Jk((resolve, reject) => {
+                resolve('jack resolve   ')
+                
+        }).then(value => {
+            console.log(sfd)
+            return 'jkds'
+        }, reason => {
+            console.log(reason)
+            return 'p2'
+        }).then(value => {
+            console.log('suceess', value)
+        }, reason => {
+            console.log('erro',reason)
+        })
+
+        console.log('jack')
+
+
     </script>
+    <!-- let p = new Jk((resolve, reject) => {
+                    reject('jack resolve   ')
+                }).then(value => {
+                    console.log(value)
+                    return 'jkds'
+                }, reason => {
+                    console.log(reason)
+                    return 'niubi'
+                }).then(value => {
+                    console.log(value)
+                }) -->
 </body>
 
 </html>

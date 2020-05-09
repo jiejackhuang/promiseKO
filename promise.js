@@ -53,46 +53,53 @@ class Jk {
         if (typeof onRejected !== 'function') {
             onRejected = () => {}
         }
-        // console.log(this) 还tm是pengding呢
-        if (this.status == Jk.PENDING) {
-            //  注意这里push的是一个对象
-            this.callbacks.push({
-                onFulfilled: value => {
-                    try {
-                        onFulfilled(value)
-                    } catch (e) {
-                        onRejected(e)
+        return new Jk((resolve, reject) => {
+            // console.log(this) 还tm是pengding呢
+            if (this.status == Jk.PENDING) {
+                //  注意这里push的是一个对象
+                this.callbacks.push({
+                    onFulfilled: value => {
+                        try {
+                            let res = onFulfilled(value)
+                            resolve(res)
+                        } catch (e) {
+                            reject(e)
+                        }
+                    },
+                    onRejected: value => {
+                        try {
+                            let res = onRejected(value)
+                            resolve(res)
+                        } catch (e) {
+                            reject(e)
+                        }
                     }
-                },
-                onRejected: value => {
+                })
+            }
+            if (this.status == Jk.FULFILLED) {
+                setTimeout(() => {
+                    //把任务做成异步的
                     try {
-                        onRejected(value)
+                        //  这里接受到 ‘jkds 返回值 ，就执行resolve改变当前then函数所返回的promise的状态
+                        let res = onFulfilled(this.value)
+                        resolve(res)
                     } catch (e) {
-                        onRejected(e)
+                        reject(e)
                     }
-                }
-            })
-        }
-        if (this.status == Jk.FULFILLED) {
-            setTimeout(() => {
-                //把任务做成异步的
-                try {
-                    onFulfilled(this.value)
-                } catch (e) {
-                    onRejected(e)
-                }
-            })
-        }
+                })
+            }
 
-        if (this.status == Jk.REJECTED) {
-            setTimeout(() => {
-                try {
-                    onRejected(this.value)
-                } catch (e) {
-                    onRejected(e)
-                }
-            })
-        }
+            if (this.status == Jk.REJECTED) {
+                setTimeout(() => {
+                    try {
+                        let res = onRejected(this.value)
+                        resolve(res)
+                    } catch (e) {
+                        reject(e)
+                    }
+                })
+            }
+        })
     }
 }
 
