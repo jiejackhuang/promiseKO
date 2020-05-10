@@ -48,10 +48,10 @@ class Jk {
     }
     then(onFulfilled, onRejected) {
         if (typeof onFulfilled !== 'function') {
-            onFulfilled = () => {}
+            onFulfilled = () => this.value
         }
         if (typeof onRejected !== 'function') {
-            onRejected = () => {}
+            onRejected = () => this.value
         }
         return new Jk((resolve, reject) => {
             // console.log(this) 还tm是pengding呢
@@ -82,7 +82,14 @@ class Jk {
                     try {
                         //  这里接受到 ‘jkds 返回值 ，就执行resolve改变当前then函数所返回的promise的状态
                         let res = onFulfilled(this.value)
-                        resolve(res)
+                        if (res instanceof Jk) {
+                            res.then(value => {
+                                // 传递
+                                resolve(value)
+                            })
+                        } else {
+                            resolve(res)
+                        }
                     } catch (e) {
                         reject(e)
                     }

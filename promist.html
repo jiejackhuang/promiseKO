@@ -25,10 +25,11 @@
         console.log(p)
     </script> -->
     <!-- 第二部分 -->
-    <script>
+    <!-- <script>
         let p = new Jk((resolve, reject) => {
             resolve('jack resolve   ')
-        }).then(value => {
+        }).then()
+        .then(value => {
             return 'jkds'
         }, reason => {
             return 'p2'
@@ -41,7 +42,7 @@
         console.log('jack')
 
 
-    </script>
+    </script> -->
     <!-- let p = new Jk((resolve, reject) => {
                     reject('jack resolve   ')
                 }).then(value => {
@@ -53,6 +54,40 @@
                 }).then(value => {
                     console.log(value)
                 }) -->
+
+    <!-- then穿透问题 -->
+    <!-- <script>
+        let p = new Jk((resolve, reject) => {
+            resolve('jack resolve   ')
+        }).then()
+            .then(value => {
+                console.log(value)
+            }, reason => {
+                return 'p2'
+            })
+
+        console.log('jack')
+
+
+    </script> -->
+    <script>
+        let p = new Jk((resolve, reject) => {
+            resolve('jack resolve   ')
+        })
+            .then(value => {
+                console.log(value)
+                return new Jk(resolve=>{
+                    resolve('jkds')
+                })
+            })
+            .then(value=>{
+                console.log(value)
+            })
+
+        console.log('jack')
+
+
+    </script>
 </body>
 
 </html>
