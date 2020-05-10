@@ -127,13 +127,30 @@ class Jk {
             }
         })
     }
+    static all(promises) {
+        const values = []
+
+        return new Jk((resolve, reject) => {
+            promises.forEach(promise => {
+                promise.then(value => {
+                    values.push(value)
+                    if (values.length == promises.length) {
+                        resolve(values)
+                    }
+                }, reason => {
+                    reject(reason)
+                })
+            })
+        })
+    }
+
+    // new Promise((resolve, reject) => {
+    //     resolve('js')
+
+    // }).then(value=>{
+
+    // }, reason => {
+
+    // })
+
 }
-
-// new Promise((resolve, reject) => {
-//     resolve('js')
-
-// }).then(value=>{
-
-// }, reason => {
-
-// })

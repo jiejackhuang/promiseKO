@@ -135,7 +135,7 @@
 
 
         </script> -->
-    <script>
+    <!-- <script>
         let p = new Jk((resolve, reject) => {
             reject('sdfsd')
         })
@@ -143,6 +143,24 @@
             console.log(value)
         }, reason => {
             console.log('re', reason)
+        })
+
+
+    </script> -->
+    <script>
+        let p1 = new Jk((resolve, reject) => {
+            resolve('jkr')
+        })
+
+        let p2 = new Jk((resolve, reject) => {
+            resolve('jksdfsr')
+        })
+        // ['jkr','jksdfsr']
+        // 如果其中一个失败，then就会执行  失败方法
+        Jk.all([p1, p2]).then(value => {
+            console.log(value)
+        }, resaon => {
+            console.log(resaon)
         })
 
 
