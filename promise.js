@@ -143,6 +143,18 @@ class Jk {
             })
         })
     }
+    static race(promises) {
+
+        return new Jk((resolve, reject) => {
+            promises.map(promise => {
+                promise.then(value => {
+                    resolve(value)
+                }, reason => {
+                    reject(reason)
+                })
+            })
+        })
+    }
 
     // new Promise((resolve, reject) => {
     //     resolve('js')

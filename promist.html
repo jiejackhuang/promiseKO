@@ -147,7 +147,7 @@
 
 
     </script> -->
-    <script>
+    <!-- <script>
         let p1 = new Jk((resolve, reject) => {
             resolve('jkr')
         })
@@ -161,6 +161,28 @@
             console.log(value)
         }, resaon => {
             console.log(resaon)
+        })
+
+
+    </script> -->
+    <script>
+        let p1 = new Jk((resolve, reject) => {
+            setTimeout(_=>{
+                resolve('jkda')
+            },400)
+        })
+
+        let p2 = new Jk((resolve, reject) => {
+             setTimeout(()=> {
+                reject('jkdi er')
+            }, 30)
+        })
+        // ['jkr','jksdfsr']
+        // 如果其中一个失败，then就会执行  失败方法
+        Jk.race([p1, p2]).then(value => {
+            console.log(value)
+        }, resaon => {
+            console.log('reson',resaon)
         })
 
 
