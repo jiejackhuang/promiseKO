@@ -95,7 +95,7 @@
 
 
     </script> -->
-        <script>
+    <!-- <script>
             let promise = new Jk((resolve, reject) => {
                 resolve('jack resolve   ')
             })
@@ -107,7 +107,46 @@
             })
 
             console.log(p)
-        </script>
+        </script> -->
+    <!-- <script>
+        let p=new Promise((resolve,reject)=>{
+            resolve('cg')
+        })
+        Jk.resolve('jack').then(value => {
+            console.log(value)
+        })
+        Jk.reject('jack').then(value => {
+            console.log(value)
+        }, reson => {
+            console.log(reson)
+        })
+
+
+    </script> -->
+    <!-- <script>
+            let p = new Jk((resolve, reject) => {
+                resolve('cg')
+            })
+           Jk.resolve(p).then(value=>{
+               console.log(value)
+           },reason=>{
+               console.log(reason)
+           })
+
+
+        </script> -->
+    <script>
+        let p = new Jk((resolve, reject) => {
+            reject('sdfsd')
+        })
+        Jk.resolve(p).then(value => {
+            console.log(value)
+        }, reason => {
+            console.log('re', reason)
+        })
+
+
+    </script>
 </body>
 
 </html>

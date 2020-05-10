@@ -59,10 +59,10 @@ class Jk {
                 //  注意这里push的是一个对象
                 this.callbacks.push({
                     onFulfilled: value => {
-                        this.parse(promise,onFulfilled(value), resolve, reject)
+                        this.parse(promise, onFulfilled(value), resolve, reject)
                     },
                     onRejected: value => {
-                        this.parse(promise,onRejected(value), resolve, reject)
+                        this.parse(promise, onRejected(value), resolve, reject)
                     }
                 })
             }
@@ -70,7 +70,7 @@ class Jk {
                 setTimeout(() => {
                     //把任务做成异步的
                     // 抽象封装代码，3个以上就要开始封装了
-                    this.parse(promise,onFulfilled(this.value), resolve, reject)
+                    this.parse(promise, onFulfilled(this.value), resolve, reject)
 
 
                 })
@@ -80,15 +80,14 @@ class Jk {
                 // 你应该明白，我把这个parse函数放到settimeout里面了，所以他肯定是可以访问都promise变量的
 
                 setTimeout(() => {
-                    this.parse(promise,onRejected(this.value), resolve, reject)
+                    this.parse(promise, onRejected(this.value), resolve, reject)
                 })
             }
         })
         return promise
     }
-    parse(promise,res, resolve, reject) {
-        if(promise===res)
-        {
+    parse(promise, res, resolve, reject) {
+        if (promise === res) {
             throw new TypeError('Chaining cycle detected jack')
         }
         try {
@@ -107,6 +106,26 @@ class Jk {
         } catch (e) {
             reject(e)
         }
+    }
+    static resolve(value) {
+
+
+        return new Jk((resolve, reject) => {
+            if (value instanceof Jk) {
+                value.then(resolve, reject)
+            } else {
+                resolve(value)
+            }
+        })
+    }
+    static reject(value) {
+        return new Jk((resolve, reject) => {
+            if (value instanceof Jk) {
+                value.then(resolve, reject)
+            } else {
+                reject(value)
+            }
+        })
     }
 }
 
