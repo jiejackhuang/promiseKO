@@ -70,7 +70,7 @@
 
 
     </script> -->
-    <script>
+    <!-- <script>
         let p = new Jk((resolve, reject) => {
                 resolve('jack resolve   ')
 
@@ -94,7 +94,20 @@
         console.log('jack')
 
 
-    </script>
+    </script> -->
+        <script>
+            let promise = new Jk((resolve, reject) => {
+                resolve('jack resolve   ')
+            })
+
+              
+            let p=promise.then(value=>{
+                console.log(value)
+                return p
+            })
+
+            console.log(p)
+        </script>
 </body>
 
 </html>

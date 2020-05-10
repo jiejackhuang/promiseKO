@@ -53,16 +53,16 @@ class Jk {
         if (typeof onRejected !== 'function') {
             onRejected = () => this.value
         }
-        return new Jk((resolve, reject) => {
+        let promise = new Jk((resolve, reject) => {
             // console.log(this) 还tm是pengding呢
             if (this.status == Jk.PENDING) {
                 //  注意这里push的是一个对象
                 this.callbacks.push({
                     onFulfilled: value => {
-                         this.parse(onFulfilled(value), resolve, reject)
+                        this.parse(promise,onFulfilled(value), resolve, reject)
                     },
                     onRejected: value => {
-                         this.parse(onRejected(value), resolve, reject)
+                        this.parse(promise,onRejected(value), resolve, reject)
                     }
                 })
             }
@@ -70,21 +70,27 @@ class Jk {
                 setTimeout(() => {
                     //把任务做成异步的
                     // 抽象封装代码，3个以上就要开始封装了
-                    this.parse(onFulfilled(this.value), resolve, reject)
+                    this.parse(promise,onFulfilled(this.value), resolve, reject)
 
-                    
+
                 })
             }
 
             if (this.status == Jk.REJECTED) {
+                // 你应该明白，我把这个parse函数放到settimeout里面了，所以他肯定是可以访问都promise变量的
+
                 setTimeout(() => {
-                     this.parse(onRejected(this.value), resolve, reject)
+                    this.parse(promise,onRejected(this.value), resolve, reject)
                 })
             }
         })
+        return promise
     }
-    parse(res,resolve,reject)
-    {
+    parse(promise,res, resolve, reject) {
+        if(promise===res)
+        {
+            throw new TypeError('Chaining cycle detected jack')
+        }
         try {
             // let res = onRejected(this.value)
             if (res instanceof Jk) {
