@@ -72,16 +72,23 @@
     </script> -->
     <script>
         let p = new Jk((resolve, reject) => {
-            resolve('jack resolve   ')
+                resolve('jack resolve   ')
+
         })
             .then(value => {
-                console.log(value)
-                return new Jk(resolve=>{
-                    resolve('jkds')
+                console.log('niubi', value)
+                return new Jk((resolve, reject) => {
+                    reject('sfd')
+                })
+            }, reason => {
+                return new Jk((resolve, reject) => {
+                    resolve('sfdfs')
                 })
             })
-            .then(value=>{
+            .then(value => {
                 console.log(value)
+            }, reason => {
+                console.log('rej', reason)
             })
 
         console.log('jack')

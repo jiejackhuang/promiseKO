@@ -59,54 +59,48 @@ class Jk {
                 //  注意这里push的是一个对象
                 this.callbacks.push({
                     onFulfilled: value => {
-                        try {
-                            let res = onFulfilled(value)
-                            resolve(res)
-                        } catch (e) {
-                            reject(e)
-                        }
+                         this.parse(onFulfilled(value), resolve, reject)
                     },
                     onRejected: value => {
-                        try {
-                            let res = onRejected(value)
-                            resolve(res)
-                        } catch (e) {
-                            reject(e)
-                        }
+                         this.parse(onRejected(value), resolve, reject)
                     }
                 })
             }
             if (this.status == Jk.FULFILLED) {
                 setTimeout(() => {
                     //把任务做成异步的
-                    try {
-                        //  这里接受到 ‘jkds 返回值 ，就执行resolve改变当前then函数所返回的promise的状态
-                        let res = onFulfilled(this.value)
-                        if (res instanceof Jk) {
-                            res.then(value => {
-                                // 传递
-                                resolve(value)
-                            })
-                        } else {
-                            resolve(res)
-                        }
-                    } catch (e) {
-                        reject(e)
-                    }
+                    // 抽象封装代码，3个以上就要开始封装了
+                    this.parse(onFulfilled(this.value), resolve, reject)
+
+                    
                 })
             }
 
             if (this.status == Jk.REJECTED) {
                 setTimeout(() => {
-                    try {
-                        let res = onRejected(this.value)
-                        resolve(res)
-                    } catch (e) {
-                        reject(e)
-                    }
+                     this.parse(onRejected(this.value), resolve, reject)
                 })
             }
         })
+    }
+    parse(res,resolve,reject)
+    {
+        try {
+            // let res = onRejected(this.value)
+            if (res instanceof Jk) {
+                res.then(resolve, reject)
+                // res.then(value => {
+                //     // 传递
+                //     resolve(value)
+                // }, reason => {
+                //     reject(reason)
+                // })
+            } else {
+                resolve(res)
+            }
+        } catch (e) {
+            reject(e)
+        }
     }
 }
 
